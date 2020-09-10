@@ -8,7 +8,11 @@ sources = ["http://www.koco.com/topstories-rss", "http://feeds.marketwatch.com/m
 while True:
     for sites in sources:
         url = sites
-        resp = urllib.request.urlopen(url).read()
+        #added try/except to fix the program crashing when sites were slow to respond or had errors
+        try:
+            resp = urllib.request.urlopen(url).read()
+        except:
+            continue
         soup = BeautifulSoup(resp, "html.parser")
         items = soup.findAll('item')
         for item in items:
